@@ -1,0 +1,45 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Sell
+{% endblock %}
+
+{% block main %}
+    <table class="table table-striped">
+        <tr>
+            <th>Symbol</th>
+            <th>Name</th>
+            <th>Shares</th>
+            <th>Price</th>
+            <th>TOTAL</th>
+        </tr>
+        {% for stock in stocks %}
+            <tr>
+                <td>{{ stock.symbol }}</td>
+                <td>{{ stock.name }}</td>
+                <td>{{ stock.shares }}</td>
+                <td>{{ "${:,.2f}".format(stock.currentPrice) }}</td>
+                <td>{{ "${:,.2f}".format(stock.currentPrice * stock.shares) }}</td>
+            </tr>
+        {% endfor %}
+        <tr>
+            <td><b>CASH</b></td>
+            <td></td>
+            <td></td>
+            <td></td>
+            <td><b>{{ "${:,.2f}".format(cash) }}</b></td>
+        </tr>
+    </table>
+    
+    <form action="{{ url_for('sell') }}" method="post">
+        <fieldset>
+            <div class="form-group">
+                <input autocomplete="off" autofocus class="form-control" name="symbol" placeholder="Symbol" type="text"/>
+                <input autocomplete="off" autofocus class="form-control" name="amount" placeholder="Amount" type="number" min="1"/>
+            </div>
+            <div class="form-group">
+                <button class="btn btn-default" type="submit">Sell</button>
+            </div>
+        </fieldset>
+    </form>
+{% endblock %}
